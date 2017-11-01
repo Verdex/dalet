@@ -34,7 +34,7 @@ namespace Dalet
         }
         private char Previous => _text[_index - 1];
         private char Current => _text[_index];
-        private void Next()
+        private void Next() // TODO need to handle the end of file case
         {
             _index++;    
         }
@@ -72,8 +72,27 @@ namespace Dalet
             }
         }
 
+        private Token Base10Int( char init )
+        {
+            var start = _index - 1;
+            var ds = new List<char> { init }; // TODO resolve issue here
+            
+            while( Try( Char.IsDigit ) )
+            {
+                ds.Add( Previous );
+            }
+            
+            var end = _index;
+            return new Token( TType.Int, start, end, new string( ds.ToArray() ) );
+        }
+        
         public IEnumerable<Token> Lex()
         {
+            if( Try( Char.IsDigit ) )
+            {
+                yield return Base10Int( Previous );
+            }
+            // TODO will need to handle white space
             yield break;
         }
     }
