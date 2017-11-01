@@ -22,5 +22,56 @@ namespace Dalet
 
     public class Lexer
     {
+        private readonly string _text;
+        private int _index;
+        public Lexer( string text )
+        {
+            _text = text;
+            _index = 0;
+        }
+        private char Previous => _text[_index - 1];
+        private char Current => _text[_index];
+        private void Next()
+        {
+            _index++;    
+        }
+        private bool Try(Func<char, bool> p)
+        {
+            if ( p(Current) )
+            {
+                Next();
+                return true;
+            }
+            return false;
+        }
+        private bool Try(char c)
+        {
+            if ( c == Current )
+            {
+                Next();
+                return true;
+            }
+            return false;
+        }
+        private void Is(Func<char, bool> p)
+        {
+            if ( !p(Current) )
+            {
+                throw new Exception( "error" ); // TODO error handling message
+            }
+            Next();
+        }
+        private void Is(char c)
+        {
+            if ( c != Current )
+            {
+                throw new Exception( "error" ); // TODO error handling message
+            }
+        }
+
+        public IEnumerable<Token> Lex()
+        {
+            yield break;
+        }
     }
 }
