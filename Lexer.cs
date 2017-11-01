@@ -11,10 +11,12 @@ namespace Dalet
     {
         public IEnumerable<string> Values { get; }
         public TType Type { get; }
-        public Token( TType t, params string[] values )
+        public int Index { get; }
+        public Token( TType t, int index, params string[] values )
         {
             Type = t;
             Values = values; 
+            Index = index;
         }
     }
 
