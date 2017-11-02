@@ -104,8 +104,11 @@ namespace Dalet
         {
             while ( !EndText )
             {
-            // TODO will need to handle white space
-                if( Try( Char.IsDigit ) )
+                if ( Try( Char.IsWhiteSpace ) )
+                {
+                   continue;
+                }
+                else if( Try( Char.IsDigit ) )
                 {
                     yield return Base10Int( Previous );
                 }
