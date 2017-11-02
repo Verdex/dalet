@@ -1,4 +1,5 @@
 
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Dalet.Util
@@ -8,22 +9,28 @@ namespace Dalet.Util
         private List<string> Text { get; }
         public DisplayError( string text )
         {
-            Text = text;
+            Text = Lines( text ).ToList();
         }
 
         private static IEnumerable<string> Lines( string t )
         {
             var line = UntilEndLine( t ).ToArray(); 
-            
-            yield return new string( line );
+            yield return new string( line ).Replace("\t", "    ");
 
+            var next = t.Substring( line.Length );
+            while( next.Length != 0 )
+            {
+                line = UntilEndLine( next ).ToArray();
+                yield return new string( line ).Replace("\t", "    ");
+                next = next.Substring( line.Length );
+            }
         }
         
         private static IEnumerable<char> UntilEndLine( string t )
         {
             for( var i = 0; i < t.Length; i++ )
             {
-                if ( t.Length > i && t[i] == '\r' && t[i+1] == '\n' )
+                if ( t.Length - 1 > i && t[i] == '\r' && t[i+1] == '\n' )
                 {
                     yield return '\r';
                     yield return '\n';
@@ -45,10 +52,5 @@ namespace Dalet.Util
                 }
             }
         }
-
-    // need to handle tabs (probably by just inserting my own?)
-    // \r\n (don't put that \n on it's own line), \n
-
-
     }
 }
