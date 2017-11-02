@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Dalet
 {
-    public enum TType { Int, String }
+    public enum TType { Int, String, Var }
 
     public class Token
     {
@@ -38,6 +38,19 @@ namespace Dalet
         private void Next() // TODO need to handle the end of file case
         {
             _index++;    
+        }
+        private bool Try(string s)
+        {
+            var t = _text.Substring( _index );
+            if ( t.StartsWith( s ) )
+            {
+                for( var i = 0; i < s.Length; i++ )
+                {
+                    Next();
+                }
+                return true;
+            }
+            return false;
         }
         private bool Try(Func<char, bool> p)
         {
@@ -91,13 +104,16 @@ namespace Dalet
         {
             while ( !EndText )
             {
+            // TODO will need to handle white space
                 if( Try( Char.IsDigit ) )
                 {
                     yield return Base10Int( Previous );
                 }
+                else if ( Try( "var" ) )
+                {
+                    yield return new Token( TType.Var, _index - 3, _index - 1, null );
+                }
             }
-            // TODO will need to handle white space
-            yield break;
         }
     }
 }
