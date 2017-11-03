@@ -1,8 +1,8 @@
 
 using System;
 using System.Collections.Generic;
-// the idea will be to parse as little as possible given the current lexing context
-// will probably need some sort of lexet or something class to contain sub lexers
+
+using Dalet.Util;
 
 namespace Dalet
 {
@@ -35,7 +35,7 @@ namespace Dalet
         private char Previous => _text[_index - 1];
         private char Current => _text[_index];
         private bool EndText => _text.Length <= _index;
-        private void Next() // TODO need to handle the end of file case
+        private void Next() 
         {
             _index++;    
         }
@@ -74,7 +74,7 @@ namespace Dalet
         {
             if ( !p(Current) )
             {
-                throw new Exception( "error" ); // TODO error handling message
+                throw new Exception( "" );// TODO error handling message
             }
             Next();
         }
