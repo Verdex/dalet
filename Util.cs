@@ -19,6 +19,10 @@ namespace Dalet.Util
 
         public string Error( int start, int end, string message )
         { 
+            if ( end < start )
+            {
+                throw new Exception( "The end happens before the start" );
+            }
             foreach( var t in Text )
             {
                 if ( start > t.Length - 1 )
@@ -28,14 +32,20 @@ namespace Dalet.Util
                 }
                 else if ( t[t.Length - 1] != '\n' && t[t.Length - 1] != '\r' )
                 {
-                    return t + "\n" + new string( '-', start ) + new string( '^', 1 + end - start );
+                    return message + "\n\n" 
+                           +  t + "\n" 
+                           + new string( '-', start ) 
+                           + new string( '^', 1 + end - start );
                 }
                 else
                 {
-                    return t + new string( '-', start ) + new string( '^', 1 + end - start );
+                    return message + "\n\n" 
+                           + t 
+                           + new string( '-', start ) 
+                           + new string( '^', 1 + end - start );
                 }
             }
-            return "";
+            throw new Exception( "error does not occur within limit set by the text length" );
         }
 
         private static IEnumerable<string> Lines( string t )
