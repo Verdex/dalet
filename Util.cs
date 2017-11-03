@@ -19,7 +19,6 @@ namespace Dalet.Util
 
         public string Error( int start, int end, string message )
         { 
-            // TODO last line no \n issue
             foreach( var t in Text )
             {
                 if ( start > t.Length - 1 )
