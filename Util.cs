@@ -13,17 +13,18 @@ namespace Dalet.Util
             Text = Lines( text ).ToList();
         }
         
-        public string Error( int index, string message )
+        public string Error( int index, string file, string message )
         {
-            return Error( index, index, message );
+            return Error( index, index, file, message );
         }
 
-        public string Error( int start, int end, string message )
+        public string Error( int start, int end, string file, string message )
         { 
             if ( end < start )
             {
                 throw new Exception( "The end happens before the start" );
             }
+            var line = 1;
             foreach( var t in Text )
             {
                 if ( start > t.Length - 1 )
@@ -33,18 +34,21 @@ namespace Dalet.Util
                 }
                 else if ( t[t.Length - 1] != '\n' && t[t.Length - 1] != '\r' )
                 {
-                    return message + "\n\n" 
+                    return $"Error in file:  {file}: line {line}: column {start + 1}\n"  
+                           + message + "\n\n" 
                            +  t + "\n" 
                            + new string( '-', start ) 
                            + new string( '^', 1 + end - start );
                 }
                 else
                 {
-                    return message + "\n\n" 
+                    return $"Error in file:  {file}: line {line}: column {start + 1}\n"  
+                           + message + "\n\n" 
                            + t 
                            + new string( '-', start ) 
                            + new string( '^', 1 + end - start );
                 }
+                line++;
             }
             throw new Exception( "error does not occur within limit set by the text length" );
         }
