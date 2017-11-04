@@ -46,6 +46,7 @@ namespace Dalet
                       , ElseIf
                       , Foreach
                       , While
+                      , SemiColon
                       // TODO Injectors might need some characters for programmatic definitions
                       }
 
