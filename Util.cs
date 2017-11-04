@@ -8,17 +8,19 @@ namespace Dalet.Util
     public class DisplayError 
     {
         private List<string> Text { get; }
-        public DisplayError( string text )
+        private string File { get; }
+        public DisplayError( string fileName, string text )
         {
             Text = Lines( text ).ToList();
+            File = fileName;
         }
         
-        public string Error( int index, string file, string message )
+        public string Error( int index, string message )
         {
-            return Error( index, index, file, message );
+            return Error( index, index, message );
         }
 
-        public string Error( int start, int end, string file, string message )
+        public string Error( int start, int end, string message )
         { 
             if ( end < start )
             {
@@ -34,7 +36,7 @@ namespace Dalet.Util
                 }
                 else if ( t[t.Length - 1] != '\n' && t[t.Length - 1] != '\r' )
                 {
-                    return $"Error in file:  {file}: line {line}: column {start + 1}\n"  
+                    return $"Error in file:  {File}: line {line}: column {start + 1}\n"  
                            + message + "\n\n" 
                            +  t + "\n" 
                            + new string( '-', start ) 
@@ -42,7 +44,7 @@ namespace Dalet.Util
                 }
                 else
                 {
-                    return $"Error in file:  {file}: line {line}: column {start + 1}\n"  
+                    return $"Error in file:  {File}: line {line}: column {start + 1}\n"  
                            + message + "\n\n" 
                            + t 
                            + new string( '-', start ) 
