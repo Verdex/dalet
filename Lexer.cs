@@ -25,12 +25,14 @@ namespace Dalet
 
     public class Lexer
     {
+        private readonly DisplayError _de;
         private readonly string _text;
         private int _index;
-        public Lexer( string text )
+        public Lexer( string file, string text )
         {
             _text = text;
             _index = 0;
+            _de = new DisplayError( file, text );
         }
         private char Previous => _text[_index - 1];
         private char Current => _text[_index];
@@ -74,7 +76,7 @@ namespace Dalet
         {
             if ( !p(Current) )
             {
-                throw new Exception( "" );// TODO error handling message
+                throw new Exception( _de.Error( _index, $"unknown symbol {Current} encountered" ) );
             }
             Next();
         }
@@ -82,7 +84,7 @@ namespace Dalet
         {
             if ( c != Current )
             {
-                throw new Exception( "error" ); // TODO error handling message
+                throw new Exception( _de.Error( _index, $"unknown symbol {Current} encountered" ) );
             }
         }
 
