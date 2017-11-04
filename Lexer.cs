@@ -6,7 +6,48 @@ using Dalet.Util;
 
 namespace Dalet
 {
-    public enum TType { Int, String, Var }
+    public enum TType { Int
+                      , String
+                      , Var
+                      , Class
+                      , Util
+                      , Dot
+                      , Env
+                      , Test
+                      , Public
+                      , Symbol
+                      , Return
+                      , Yield
+                      , Break
+                      , Continue
+                      , Function
+                      , Generator
+                      , Constant
+                      , Unique
+                      , Import
+                      , Injector // Environment injection function
+                      , Equal
+                      , LessThan
+                      , GreaterThan
+                      , Add 
+                      , Sub
+                      , Mult
+                      , Div
+                      , And
+                      , Or
+                      , Xor
+                      , Not
+                      , LParen
+                      , RParen
+                      , LCurly
+                      , RCulry
+                      , If
+                      , Else
+                      , ElseIf
+                      , Foreach
+                      , While
+                      // TODO Injectors might need some characters for programmatic definitions
+                      }
 
     public class Token
     {
@@ -102,6 +143,7 @@ namespace Dalet
             return new Token( TType.Int, start, end, new string( ds.ToArray() ) );
         }
         
+        // TODO need to handle comments
         public IEnumerable<Token> Lex()
         {
             while ( !EndText )
